@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: sample-camel
+
+server:
+  port: ${PORT:8080}
+
+camel:
+  springboot:
+    name: sample-camel
