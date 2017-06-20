@@ -1,10 +1,34 @@
 spring:
   application:
     name: sample-camel
+  datasource:
+      url: jdbc:jtds:sqlserver://${DB_URL:localhost/db}
+      username: ${DB_USERNAME:guest}
+      password: ${DB_PASSWORD:guest}
+      driver-class-name: net.sourceforge.jtds.jdbc.Driver
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
 
 server:
   port: ${PORT:8080}
 
+info:
+  component: ${spring.application.name}
+
+management:
+  security:
+    enabled: false
+
 camel:
   springboot:
-    name: sample-camel
+    name: ${spring.application.name}
+
+app:
+  inbound-delay: ${INBOUND_DELAY:5000}
+  sql:
+    calculo-margem: select * from calculo_margem where status = 0
+    calculo-margem-consume: update calculo_margem set status = 1 where id = :#id
+  amqp:
+    calculo-margem: ${AMQP_QUEUE_NAME:calculo-margem}

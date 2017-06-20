@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+
+  rabbitmq:
+    image: rabbitmq:3.6.10-management-alpine
+    mem_limit: 256m
+    ports:
+      - "15672:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq:rw
+
+  camel:
+    build:
+      context: .
+      dockerfile: Dockerfile-camel
+    mem_limit: 256m
+    ports:
+      - "8080:8080"
+    environment:
+      JAVA_OPTS: -Xmx64m
+      DB_URL: localhost/db
+      DB_USERNAME: guest
+      DB_PASSWORD: guest
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_USERNAME: guest
+      RABBITMQ_PASSWORD: guest
+    depends_on:
+      - rabbitmq
+
+volumes:
+  rabbitmq-data:
+    driver: local
