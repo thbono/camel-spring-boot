@@ -12,7 +12,7 @@ public class SampleCamelRouter extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        from("sql:{{app.sql.calculo-margem}}?dataSource=dataSource&consumer.delay={{app.inbound-delay}}&onConsume={{app.sql.calculo-margem-consume}}")
+        from("sql:{{app.sql.calculo-margem}}?dataSource=dataSource&consumer.delay={{app.inbound-delay}}&onConsume={{app.sql.calculo-margem-consume}}&maxMessagesPerPoll={{app.inbound-max}}")
                 .marshal().json(JsonLibrary.Jackson)
                 .log(body().toString())
                 .setHeader(RabbitMQConstants.DELIVERY_MODE, simple(AQMP_PERSISTENT))

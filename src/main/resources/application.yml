@@ -26,7 +26,8 @@ camel:
     name: ${spring.application.name}
 
 app:
-  inbound-delay: ${INBOUND_DELAY:5000}
+  inbound-delay: ${INBOUND_DELAY:15000}
+  inbound-max: ${INBOUND_MAX:10000}
   sql:
     calculo-margem: select * from calculo_margem where status = 0
     calculo-margem-consume: update calculo_margem set status = 1 where id = :#id

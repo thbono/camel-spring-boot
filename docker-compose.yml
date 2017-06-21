@@ -18,7 +18,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      JAVA_OPTS: -Xmx64m
+      JAVA_OPTS: -Xmx128m
       DB_URL: localhost/db
       DB_USERNAME: guest
       DB_PASSWORD: guest
