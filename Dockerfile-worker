@@ -1,0 +1,5 @@
+FROM golang:1.8
+ADD go/worker.go /go/src/worker/worker.go
+RUN go get -d -v github.com/streadway/amqp
+RUN go install worker
+ENTRYPOINT ["/go/bin/worker"]

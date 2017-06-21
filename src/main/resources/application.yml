@@ -2,10 +2,10 @@ spring:
   application:
     name: sample-camel
   datasource:
-      url: jdbc:jtds:sqlserver://${DB_URL:localhost/db}
+      url: jdbc:oracle:thin:@${DB_URL:localhost:1521:orcl}
       username: ${DB_USERNAME:guest}
       password: ${DB_PASSWORD:guest}
-      driver-class-name: net.sourceforge.jtds.jdbc.Driver
+      driver-class-name: oracle.jdbc.driver.OracleDriver
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}
     username: ${RABBITMQ_USERNAME:guest}

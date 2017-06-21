@@ -4,7 +4,7 @@ services:
 
   rabbitmq:
     image: rabbitmq:3.6.10-management-alpine
-    mem_limit: 256m
+    mem_limit: 512m
     ports:
       - "15672:15672"
     volumes:
@@ -19,14 +19,22 @@ services:
       - "8080:8080"
     environment:
       JAVA_OPTS: -Xmx128m
-      DB_URL: localhost/db
-      DB_USERNAME: guest
-      DB_PASSWORD: guest
+      DB_URL: 10.13.170.251:1521:orcl
+      DB_USERNAME: consignetflexprod
+      DB_PASSWORD: consignetflexprod
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_USERNAME: guest
       RABBITMQ_PASSWORD: guest
     depends_on:
       - rabbitmq
+
+  worker:
+      build:
+        context: .
+        dockerfile: Dockerfile-worker
+      mem_limit: 32m
+      depends_on:
+        - rabbitmq
 
 volumes:
   rabbitmq-data:
