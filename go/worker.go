@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"time"
+    "os"
 
 	"github.com/streadway/amqp"
 )
@@ -14,7 +15,7 @@ func failOnError(err error, msg string) {
 }
 
 func main() {
-	conn, err := amqp.Dial("amqp://guest:guest@rabbitmq:5672/")
+	conn, err := amqp.Dial(os.Getenv("AMQP_URL"))
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
@@ -23,7 +24,7 @@ func main() {
 	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
-		"calculo-margem", // name
+		os.Getenv("AMQP_QUEUE_NAME"), // name
 		true, // durable
 		false, // delete when unused
 		false, // exclusive

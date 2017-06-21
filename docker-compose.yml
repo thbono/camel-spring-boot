@@ -19,22 +19,21 @@ services:
       - "8080:8080"
     environment:
       JAVA_OPTS: -Xmx128m
-      DB_URL: 10.13.170.251:1521:orcl
-      DB_USERNAME: consignetflexprod
-      DB_PASSWORD: consignetflexprod
+      DB_URL: localhost:1521:orcl
+      DB_USERNAME: guest
+      DB_PASSWORD: guest
       RABBITMQ_HOST: rabbitmq
-      RABBITMQ_USERNAME: guest
-      RABBITMQ_PASSWORD: guest
-    depends_on:
-      - rabbitmq
+      INBOUND_MAX: 50000
 
   worker:
-      build:
-        context: .
-        dockerfile: Dockerfile-worker
-      mem_limit: 32m
-      depends_on:
-        - rabbitmq
+    build:
+      context: .
+      dockerfile: Dockerfile-worker
+    restart: always
+    mem_limit: 8m
+    environment:
+      AMQP_URL: amqp://guest:guest@rabbitmq:5672/
+      AMQP_QUEUE_NAME: calculo-margem
 
 volumes:
   rabbitmq-data:
