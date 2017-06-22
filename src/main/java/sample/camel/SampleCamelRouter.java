@@ -16,7 +16,7 @@ public class SampleCamelRouter extends RouteBuilder {
                 .marshal().json(JsonLibrary.Jackson)
                 .log(body().toString())
                 .setHeader(RabbitMQConstants.DELIVERY_MODE, simple(AQMP_PERSISTENT))
-                .to("rabbitmq:{{spring.rabbitmq.host}}/{{app.amqp.calculo-margem}}?queue={{app.amqp.calculo-margem}}&username={{spring.rabbitmq.username}}&password={{spring.rabbitmq.password}}&autoDelete=false");
+                .to("rabbitmq:{{spring.rabbitmq.host}}:{{spring.rabbitmq.port}}/{{app.amqp.calculo-margem}}?queue={{app.amqp.calculo-margem}}&username={{spring.rabbitmq.username}}&password={{spring.rabbitmq.password}}&autoDelete=false");
     }
 
 }

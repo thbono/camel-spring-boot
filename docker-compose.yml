@@ -6,17 +6,21 @@ services:
     image: rabbitmq:3.6.10-management-alpine
     mem_limit: 512m
     ports:
+      - "5672:5672"
       - "15672:15672"
+    networks:
+      - rabbitmq-net
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq:rw
 
   camel:
     build:
       context: .
-      dockerfile: Dockerfile-camel
     mem_limit: 256m
     ports:
       - "8080:8080"
+    networks:
+      - rabbitmq-net
     environment:
       JAVA_OPTS: -Xmx128m
       DB_URL: localhost:1521:orcl
@@ -25,16 +29,10 @@ services:
       RABBITMQ_HOST: rabbitmq
       INBOUND_MAX: 50000
 
-  worker:
-    build:
-      context: .
-      dockerfile: Dockerfile-worker
-    restart: always
-    mem_limit: 8m
-    environment:
-      AMQP_URL: amqp://guest:guest@rabbitmq:5672/
-      AMQP_QUEUE_NAME: calculo-margem
-
 volumes:
   rabbitmq-data:
     driver: local
+
+networks:
+  rabbitmq-net:
+    driver: bridge

@@ -8,6 +8,7 @@ spring:
       driver-class-name: oracle.jdbc.driver.OracleDriver
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
     username: ${RABBITMQ_USERNAME:guest}
     password: ${RABBITMQ_PASSWORD:guest}
 
