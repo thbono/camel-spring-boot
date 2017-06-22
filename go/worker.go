@@ -2,10 +2,11 @@ package main
 
 import (
 	"log"
-	"time"
-    "os"
+	"os"
+	"database/sql"
 
 	"github.com/streadway/amqp"
+	_ "gopkg.in/rana/ora.v4"
 )
 
 func failOnError(err error, msg string) {
@@ -56,8 +57,11 @@ func main() {
 	go func() {
 		for d := range msgs {
 			log.Printf("Received a message: %s", d.Body)
-			time.Sleep(250 * time.Millisecond)
-			log.Printf("Done")
+
+			db, err := sql.Open("ora", "consignetflexprod/consignetflexprod@10.13.170.251:1521/orcl")
+			failOnError(err, "Failed to connect to dataabse")
+			defer db.Close()
+
 			d.Ack(false)
 		}
 	}()
